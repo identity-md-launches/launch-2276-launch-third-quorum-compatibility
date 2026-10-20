@@ -12,7 +12,12 @@ def remote(method,params):
 def main():
     d=ROOT/('evidence/mainnet-fork-'+str(time.time_ns()));d.mkdir(exist_ok=False,parents=True)
     result={'complete':False,'forkOnly':True,'realMainnetTransaction':False,'checks':{},'receipts':[]}
-    block=remote('eth_getBlockByNumber',['latest',False]);assert int(remote('eth_chainId',[]),16)==1
+    tag='latest'
+    if '--fork-block' in sys.argv:tag=hex(int(sys.argv[sys.argv.index('--fork-block')+1],0))
+    elif '--fixed-token' in sys.argv:
+        saved=json.loads((ROOT/'evidence/fixed-mainnet-fork-summary.json').read_text())
+        tag=saved['upstreamBlock']['number']
+    block=remote('eth_getBlockByNumber',[tag,False]);assert int(remote('eth_chainId',[]),16)==1
     result['upstreamBlock']={k:block[k] for k in ['number','hash','timestamp']}
     with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
     url='http://127.0.0.1:'+str(port);log=(d/'anvil.log').open('w',encoding='utf-8')
