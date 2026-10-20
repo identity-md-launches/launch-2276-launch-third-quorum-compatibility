@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 import {QuorumLaunchToken} from "./QuorumLaunchToken.sol";
-/// Second compatibility test: verified immutable dependencies on Ethereum mainnet.
-/// See PREREQUISITES.json and evidence/mainnet-prerequisite-verification.json.
+/// Third compatibility test: verified immutable dependency addresses.
+/// Dependency receipts and runtime verification: see PREREQUISITES.json.
 contract QProbeToken is QuorumLaunchToken {
- constructor() QuorumLaunchToken("Quorum Compatibility Probe","QPROBE",
+ constructor() QuorumLaunchToken("Quorum Compatibility Probe III","QPROBE3",
   address(bytes20(hex"d34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7")),62500 ether,
-  address(bytes20(hex"a4709b43764d74af689fdce38ea903c353dba8e5")),address(bytes20(hex"a0ffc637788cf803d05f459128f475487cf9224a"))) {}
+  address(bytes20(hex"63ee3be0aa5915c01bf6fecf21382511f9355b3d")),address(bytes20(hex"78928d14b9d603762dea9af51d77f666d9f7b566"))) {}
 }

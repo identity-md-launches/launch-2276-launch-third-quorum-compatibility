@@ -73,7 +73,7 @@ contract GovernancePositiveTest is NormalIntegratedTest {
         vm.prank(agents[0]);uint256 suspension=work.proposeSuspension(0,owners[6],"Repeated missing deliverables; request four full weeks suspension.");
         work.prepareBallot(suspension,32);
         require(work.ballot(work.work(suspension).ballot).voters==5);
-        for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);work.vote(suspension,i,true);}
+        for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);work.vote(suspension,i,true);}
         vm.prank(owners[6]);work.defend(suspension,"Published explanation and recovery plan.");
         maintainUntil(work.ballot(work.work(suspension).ballot).started+120 hours);
         work.executeSuspension(suspension);
@@ -81,12 +81,15 @@ contract GovernancePositiveTest is NormalIntegratedTest {
         for(uint256 w=decisionWeek+1;w<decisionWeek+5;++w)require(work.isSuspended(owners[6],w));
         maintainUntil(members.weekStart(decisionWeek+1)-1 hours);
         uint256 old=propose(10 ether);require(work.eligible(work.work(old).ballot,6));
+        require(work.ballot(work.work(old).ballot).denominator==7 && work.threshold(work.work(old).ballot)==5,"old denominator");
         maintainUntil(members.weekStart(decisionWeek+1));
         vm.prank(agents[6]);work.vote(old,6,true); // Immutable old electorate survives suspension.
         require(work.voted(work.work(old).ballot,6));
         uint256 fresh=propose(10 ether);
         require(!work.eligible(work.work(fresh).ballot,6));
         require(work.ballot(work.work(fresh).ballot).voters==5);
+        require(work.ballot(work.work(fresh).ballot).denominator==6 && work.threshold(work.work(fresh).ballot)==4,"creation-week suspension excluded");
+        require(work.threshold(work.work(old).ballot)==5,"old threshold unchanged by later suspension");
         funds.claimAllowance(initialWeek+1,6);require(income.balanceOf(owners[6])==50 ether);
         maintainUntil(members.weekStart(decisionWeek+5));
         for(uint256 w=decisionWeek+1;w<decisionWeek+5;++w){

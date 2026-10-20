@@ -63,7 +63,7 @@ contract GovernancePoolPositiveTest is ImdFactoryPositiveTest {
         QuorumWork w=core.work();vm.prank(agents[0]);
         id=w.proposeOperation(0,p,new address[](0),"Execute the committed treasury conversion and retain unused budget; collect tax under the unchanged constitution.");
         w.prepareBallot(id,32);require(w.ballot(w.work(id).ballot).voters==6,"proposer excluded");
-        for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);w.vote(id,i,true);}
+        for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);w.vote(id,i,true);}
         _maintain(w.ballot(w.work(id).ballot).started+120 hours);
     }
     function _tradePlan(bool buy,uint256 input,uint256 budget) internal view returns(OperatingPlan memory p) {

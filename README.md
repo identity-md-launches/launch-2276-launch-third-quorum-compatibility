@@ -1,38 +1,28 @@
-# Quorum Compatibility Probe - second-test candidate
+# QUORUM Compatibility Probe III
 
-Status: VERIFIED MAINNET PREREQUISITES; FINAL LOCAL ACCEPTANCE PASSED; SECOND PAID PLATFORM TEST PENDING.
-The first paid attempt stopped after three manifest attempts because the Hook lacked getHookPermissions(). No test token was deployed. This candidate preserves the approved constitution and addresses that interface gap and the independent governed-swap accounting limitation.
+This is the THIRD paid compatibility test, not a production DAO release. Use QProbeToken (zero constructor arguments), the exact immutable dependencies in PREREQUISITES.json and the official IMD factory. Do not substitute a generic token or downgrade the governance rules. Old QRM and previous probes remain independent.
 
-## What changed
+## Approved combined repair
 
-- The public getHookPermissions() returns the same four flags used for constructor validation: beforeInitialize, beforeAddLiquidity, beforeSwap, afterSwap (0x28c0).
-- During one approved operating execution, tax and platform-fee deposits may enter their own guarded income path. Outward payout/operating paths retain the execution lock. Income transfers cannot nest.
-- The immutable operating account explicitly returns the amounts it refunded. Only those amounts become operating funds; tax/fee deposits received during the operation are already split once under the unchanged 50/50 rule.
-- Default Foundry test discovery includes all of test/. The per-test budget is 5 billion gas because a single test replays multiple weeks. Actual transaction limits are verified separately with Osaka Anvil and its 16,777,216 gas cap enabled; no production gas-limit waiver is proposed.
+1. Recused members cannot vote but stay in the fixed qualified, non-suspended denominator. All ballot types require ceil(2*N/3) yes votes and at least five non-recused voters.
+2. Anyone may recognize excess supported-token balances sent directly to Treasury. Recognize only the excess over all accounted liabilities, once, as current-week income: 50% next-week allowance, 50% operations, odd remainder operations. No retroactive wages or automatic donor refunds.
+3. Before funding an operating batch, sweep pre-existing supported balances from its account and recognize them as income. Approved execution refunds, conversions and returned capital remain operations; explicit revenue entrypoints distinguish business income. Native ETH remains operations.
+4. Weekly registration counts use bounded prefix indexing of registration intervals. Qualification scans only that week's responders in batches of at most 32. Inactive registrations still count in the original weekly denominator. Old registrations do not impose repeated full-history scans. One address/seat and unlimited seat count remain unchanged.
 
-No membership, voting, work acceptance, wage, quota, tax percentage or constitution text change was made. The original two mandatory suite files retain their first-attempt hashes. New tests cover a real voted buy and sell, fee collection, ordinary unavailable-service rollback/retry, the permission query and zero-argument token composition.
+## Reproduce
 
-## Reproduce local acceptance
+Run `forge test --json` and `python tools/run_acceptance.py`: 51 positive tests, all 36 mandatory cases, preserving the previous 29 and adding seven accounting/scale cases. Test the actual default root, not only a selected folder. Never remove assertions or skip cases. The 1000-rotation case checks historical costs without fabricating member state.
 
-Run forge build, then python tools/run_acceptance.py. This runs the default forge test --json command, verifies all mandatory cases really ran, and checks source/ABI pins. Evidence is written under evidence/.
+The five external fixture artifacts are committed. Rebuild with `python tools/build_external_fixtures.py` if needed. These historical fixtures differ from the live factory: actual-mainnet-state fork evidence is separate. `python tools/mainnet_fork_positive.py --fixed-token` creates only a short-lived loopback Anvil fork and uses the actual deployed factory/PoolManager. It is a rehearsal, not a live launch. Once the prerequisites exist on mainnet, this preparation-time predeployment replay needs an earlier pinned fork block or an updated reuse mode; saved evidence records the original predeployment fork.
 
-To repeat finite actual-transaction rehearsals (fresh output names required):
+## Immutable prerequisites and issuance
 
-    python tools/issuance_lab.py --directory evidence/replay-token0 --project-order token0 --payer-handover
-    python tools/issuance_lab.py --directory evidence/replay-token1 --project-order token1 --payer-handover
+English constitution is authoritative (Chinese is a review translation). Both mainnet prerequisite receipts, runtime comparisons, exact full text and core creation bytes have been checked. See evidence/mainnet-prerequisite-verification.json. These addresses are NOT the token, pool, Hook or deployed DAO core. The actual core is created by Hook during the platform's atomic launch. Core creation code must remain byte-identical to the package; changing core logic or compiler settings requires a new package and must be reported as a blocker.
 
-Each starts only a temporary 127.0.0.1 Anvil, accepts only local chain 31337, uses local unlocked fixture accounts, and closes the process/port in finally. It does not access private keys or send public-chain transactions. It uses pinned historical public policy/example files under fixtures/policy; these are test inputs, not a claim that live policy can never change.
+getHookPermissions() is implemented and must equal flags 0x28c0. Manifest token name and symbol match QProbeToken. Opening pool policy comes from IMD; the initialPrice field is only a schema reference, not a custom override. Required actual runtime/initcode/transaction limits remain in force.
 
-Dependencies: installed Foundry (forge/anvil), Python 3.10+, eth-abi and pycryptodome. Five original external bytecode fixtures are committed; optional source rebuild: python tools/build_external_fixtures.py.
+The original owner intentionally funds membership through an owner-approved, nonce-bound agent acceptance. QuorumMembership.accept checks that the staking seat equals authorization.owner, caller equals authorization.agent, nonce is current, authorization is unexpired and the exact constitution is accepted. An arbitrary-from static-analysis diagnostic requires review of these guards and the normal owner/agent test; do not replace them or blanket-disable a detector.
 
-## Before a second paid submission
+## Limits of this test
 
-The immutable code package is deployed at 0xa4709b43764d74af689fdce38ea903c353dba8e5 on Ethereum mainnet. The unchanged constitution is reused at 0xa0ffc637788cf803d05f459128f475487cf9224a. PREREQUISITES.json and evidence/mainnet-prerequisite-verification.json record full text, runtime, part-bytecode and transaction verification. QProbeToken and its local fixed-binding fixture use the actual address. Final acceptance after binding passed all 36 tests, including all 26 mandatory cases without skips.
-
-Run python tools/verify_candidate.py --submission to validate this source-level gate. Mainnet prerequisite deployment is not deployment of the token, pool, Hook or actual governance Core. Those remain part of the paid platform test. Never point this core at the first attempt's immutable package.
-
-The local source/ABI gate checks the known missing-interface requirement; it is not IMD's private verifier. The second paid task must still pass manifest integration, specialist audits and actual deployment. Read Core through the real Hook.core() getter. Check all bindings, registry, code hashes and future LP-fee recipient; handover from payer requires its explicit authorization. Do not call the test complete after code publication alone.
-
-## Scope limits
-
-Only normal workflows and ordinary service failure/retry are exercised. No bypass testing or independent security audit is claimed. Local IMD fixtures and accelerated weekly activity do not prove live token behavior or persistent Agent autonomy. ENS integration and real Agent endurance remain later release gates. There is no frontend, ENS purchase, daemon, automatic trading, admin, proxy or mutable core binding in this test request. Old QRM is independent.
+51 positive tests do not prove security. IMD independently reviews the final project. Inspect exact final launch calldata, contributor metadata, actual gas and all chain bindings; do not equate source publication with success. This paid request includes no frontend, ENS purchase, bots, recurring service or production launch. No administrator, upgrade route or bypass privilege may be added. Payer fee rights may need the separately authorized transfer to the verified Hook after issuance. Trading or creating extra liquidity with the test wallet is outside this attempt.

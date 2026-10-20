@@ -38,6 +38,25 @@ contract QuorumMembership {
         uint256 stake;
         uint256 exitAt;
     }
+    // Prefix sums of registration intervals: cost is bounded independently of history.
+    uint256 private constant WEEK_INDEX_LIMIT = 1 << 32;
+    mapping(uint256 => int256) private registrationDeltas;
+    mapping(uint256 => uint256[]) private weeklyResponders;
+    function _delta(uint256 week, int256 change) private {
+        for(uint256 i=week+1;i<WEEK_INDEX_LIMIT;i+=i & (~i+1)) registrationDeltas[i]+=change;
+    }
+    function _expiryWeek(uint256 expires) private pure returns(uint256) {
+        // Clamp only beyond an approximately 82-million-year indexing horizon.
+        if(expires>=EPOCH+(WEEK_INDEX_LIMIT-1)*WEEK) return WEEK_INDEX_LIMIT-1;
+        return (expires-EPOCH)/WEEK+((expires-EPOCH)%WEEK==0?0:1);
+    }
+    function registrationCount(uint256 week) external view returns(uint256) {
+        require(week<WEEK_INDEX_LIMIT-1,"week range");int256 count;
+        for(uint256 i=week+1;i>0;i-=i & (~i+1)) count+=registrationDeltas[i];
+        require(count>=0,"registration count");return uint256(count);
+    }
+    function responderCount(uint256 week) external view returns(uint256) {return weeklyResponders[week].length;}
+    function responderAt(uint256 week,uint256 index) external view returns(uint256) {return weeklyResponders[week][index];}
     mapping(address => Authorization) public authorizations;
     mapping(uint256 => Enrollment) private entries;
     mapping(address => uint256) public currentEnrollmentPlusOne;
@@ -86,7 +105,13 @@ contract QuorumMembership {
     }
     function _end(uint256 id) private {
         Enrollment storage e = entries[id];
-        if (e.endWeek > currentWeek()) { e.endWeek = currentWeek(); emit Ended(id, e.endWeek); }
+        if (e.endWeek > currentWeek()) {
+            uint256 oldExclusive=_expiryWeek(e.expires);
+            uint256 newExclusive=currentWeek()+1;
+            // Registration at the beginning of the current week is preserved.
+            if(e.firstWeek<oldExclusive && newExclusive<oldExclusive){_delta(newExclusive,-1);_delta(oldExclusive,1);}
+            e.endWeek = currentWeek(); emit Ended(id, e.endWeek);
+        }
     }
     function authorize(address agent_, uint256 expires) external {
         address seat = msg.sender;
@@ -122,6 +147,9 @@ contract QuorumMembership {
             require(token.transferFrom(a.owner, address(this), stakeAmount), "deposit");
             totalStaked += stakeAmount;
         }
+        require(currentWeek()+1<WEEK_INDEX_LIMIT-1,"week range");
+        uint256 first=currentWeek()+1;uint256 last=_expiryWeek(a.expires);
+        if(first<last){_delta(first,1);_delta(last,-1);}
         id = enrollmentCount++;
         entries[id] = Enrollment(seat, a.owner, a.agent, a.expires, a.nonce, currentWeek() + 1,
             type(uint256).max, stakeAmount, 0);
@@ -140,6 +168,7 @@ contract QuorumMembership {
         uint256 hour = (block.timestamp - weekStart(week)) / 1 hours;
         uint256 bit = uint256(1) << hour;
         require(hourBitmap[id][week] & bit == 0, "hour recorded");
+        if(responseCount[id][week]==0 && registeredAtStart(id,week)) weeklyResponders[week].push(id);
         hourBitmap[id][week] |= bit; ++responseCount[id][week];
         emit Responded(id, week, hour, anchorNumber, anchorHash, revision, response);
     }

@@ -87,7 +87,7 @@ contract NormalIntegratedTest {
         while (!work.ballot(work.work(id).ballot).ready) work.prepareBallot(id, 2);
     }
     function votes(uint256 id) internal {
-        for (uint256 i = 1; i <= 4; ++i) { vm.prank(agents[i]); work.vote(id, i, true); }
+        for (uint256 i = 1; i <= 5; ++i) { vm.prank(agents[i]); work.vote(id, i, true); }
     }
     function finishWork(uint256 id) internal {
         votes(id);

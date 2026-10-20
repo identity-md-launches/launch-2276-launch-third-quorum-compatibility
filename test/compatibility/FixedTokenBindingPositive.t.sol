@@ -59,13 +59,13 @@ contract FixedTokenBindingPositiveTest {
         address imdAddress=address(bytes20(hex"d34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7"));
         vm.etch(imdAddress,address(imdFixture).code);imd=LocalToken(imdAddress);
         ConstitutionPrototype constitution=new ConstitutionPrototype(bytes(vm.readFile("constitution.en.md")));
-        address constitutionAddress=address(bytes20(hex"a0ffc637788cf803d05f459128f475487cf9224a"));
+        address constitutionAddress=address(bytes20(hex"78928d14b9d603762dea9af51d77f666d9f7b566"));
         vm.etch(constitutionAddress,address(constitution).code);constitution=ConstitutionPrototype(constitutionAddress);
         bytes memory coreCreation=vm.getCode("QuorumBoundCore.sol:QuorumBoundCore");
         bytes memory first=new bytes(24000);bytes memory second=new bytes(coreCreation.length-24000);
         for(uint256 i;i<coreCreation.length;++i){if(i<24000)first[i]=coreCreation[i];else second[i-24000]=coreCreation[i];}
         QuorumCoreCode catalog=new QuorumCoreCode(first,second,keccak256(coreCreation));
-        address pendingCode=address(bytes20(hex"a4709b43764d74af689fdce38ea903c353dba8e5"));
+        address pendingCode=address(bytes20(hex"63ee3be0aa5915c01bf6fecf21382511f9355b3d"));
         vm.etch(pendingCode,address(catalog).code);
         require(QuorumCoreCode(pendingCode).creationHash()==keccak256(coreCreation),"new code package pinned");
         bytes memory tokenCode=type(QProbeToken).creationCode;
@@ -140,9 +140,9 @@ contract FixedTokenBindingPositiveTest {
         require(fee0>0 || fee1>0); // Normal collection remains compatible with restricted new liquidity.
     }
     function testNormalZeroArgumentCandidateBinding() public view {
-        require(address(token.coreCode())==address(bytes20(hex"a4709b43764d74af689fdce38ea903c353dba8e5")),"candidate placeholder binding");
-        require(keccak256(bytes(token.name()))==keccak256("Quorum Compatibility Probe"));
-        require(keccak256(bytes(token.symbol()))==keccak256("QPROBE"));
+        require(address(token.coreCode())==address(bytes20(hex"63ee3be0aa5915c01bf6fecf21382511f9355b3d")),"fixed third-test dependency binding");
+        require(keccak256(bytes(token.name()))==keccak256("Quorum Compatibility Probe III"));
+        require(keccak256(bytes(token.symbol()))==keccak256("QPROBE3"));
         require(token.stakeAmount()==62_500 ether);
         require(address(core.treasury().asset())==token.revenueToken());
         require(address(core.constitution())==address(token.constitution()));

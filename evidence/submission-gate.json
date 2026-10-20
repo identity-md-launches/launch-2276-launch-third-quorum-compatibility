@@ -1,0 +1,73 @@
+{
+  "ok": true,
+  "mode": "submission",
+  "checks": {
+    "default_test_root_includes_all_suites": true,
+    "declared_flags_exact": true,
+    "pin:test/positive/GovernancePositive.t.sol": true,
+    "pin:test/positive/ImdFactoryPositive.t.sol": true,
+    "pin:test/compatibility/GovernancePoolPositive.t.sol": true,
+    "pin:test/compatibility/FixedTokenBindingPositive.t.sol": true,
+    "pin:test/positive/RecusalPositive.t.sol": true,
+    "pin:test/positive/RevenueAndScalePositive.t.sol": true,
+    "constitution_hash": true,
+    "runtime:QuorumBoundCore": true,
+    "core_creation_hash": true,
+    "core_init_with_arguments": true,
+    "runtime:QuorumIssuanceHook": true,
+    "public_hook_permissions_query": true,
+    "hook_constructor_arguments": true,
+    "hook_init_with_arguments": true,
+    "runtime:QuorumMembership": true,
+    "runtime:QuorumTreasury": true,
+    "runtime:QuorumWork": true,
+    "runtime:QuorumOperatingAccount": true,
+    "runtime:QProbeToken": true,
+    "zero_argument_token": true,
+    "runtime:QuorumSwapRouter": true,
+    "prerequisites_verified_on_chain": true,
+    "code_package_final_address": true,
+    "token_binds_final_code_package": true,
+    "live_receipts_and_runtime_verification": true
+  },
+  "blockers": [],
+  "sizes": {
+    "QuorumBoundCore": {
+      "creationBytes": 42214,
+      "runtimeBytes": 802
+    },
+    "QuorumIssuanceHook": {
+      "creationBytes": 18090,
+      "runtimeBytes": 8314
+    },
+    "QuorumMembership": {
+      "creationBytes": 8358,
+      "runtimeBytes": 7975
+    },
+    "QuorumTreasury": {
+      "creationBytes": 32318,
+      "runtimeBytes": 10313
+    },
+    "QuorumWork": {
+      "creationBytes": 17634,
+      "runtimeBytes": 17329
+    },
+    "QuorumOperatingAccount": {
+      "creationBytes": 3407,
+      "runtimeBytes": 3167
+    },
+    "QProbeToken": {
+      "creationBytes": 3088,
+      "runtimeBytes": 1857
+    },
+    "QuorumSwapRouter": {
+      "creationBytes": 4846,
+      "runtimeBytes": 4030
+    }
+  },
+  "limitations": [
+    "Not IMD private deployment-verifier execution",
+    "Compiled creation hash and receipt checks must be rerun after final address binding",
+    "No bypass/adversarial testing performed"
+  ]
+}

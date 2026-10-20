@@ -54,6 +54,7 @@ contract QuorumWork {
         uint256 yes;
         uint256 started;
         bool ready;
+        uint256 denominator; // Qualified, non-suspended seats before any conflict recusal.
     }
     mapping(uint256 => Action) public action;
     mapping(uint256 => address) public subject;
@@ -75,7 +76,7 @@ contract QuorumWork {
     event Proposed(uint256 indexed id, uint256 applicant, uint256 worker, address recipient, uint256 budget,
         uint256 deadline, bytes32 digest, string terms);
     event PaymentAssetSelected(uint256 indexed id,address indexed asset);
-    event BallotReady(uint256 indexed ballot, uint256 week, uint256 voters, uint256 started);
+    event BallotReady(uint256 indexed ballot, uint256 week, uint256 voters, uint256 denominator, uint256 started);
     event Voted(uint256 indexed ballot, uint256 indexed enrollment, bool support);
     event Funded(uint256 indexed id, uint256 amount);
     event Submitted(uint256 indexed id, uint256 ballot, bytes32 digest, string evidence);
@@ -198,13 +199,15 @@ contract QuorumWork {
             b.ready=true;b.started=block.timestamp;
             if(w.stage==Stage.BudgetSnapshot)w.stage=Stage.BudgetVoting;
             else w.stage=Stage.AcceptanceVoting;
-            emit BallotReady(w.ballot,b.week,b.voters,b.started);
+            emit BallotReady(w.ballot,b.week,b.voters,b.denominator,b.started);
         }
     }
     function appendEntry(uint256 id) external {
         require(msg.sender==address(this),"internal batch");
         uint256 ballotId=works[id].ballot;Ballot storage b=ballots[ballotId];
         uint256 entry=treasury.qualifiedEntry(b.week,b.cursor);++b.cursor;
+        QuorumMembership.Enrollment memory e=membership.enrollment(entry);
+        if(!isSuspended[e.owner][decisionWeek[ballotId]])++b.denominator;
         if(this.entryEligible(id,entry)){eligible[ballotId][entry]=true;++b.voters;}
     }
     function entryEligible(uint256 id,uint256 entry) external view returns(bool) {
@@ -222,7 +225,9 @@ contract QuorumWork {
         emit Voted(w.ballot, qualifiedEnrollment, support);
     }
     function threshold(uint256 ballotId) public view returns (uint256) {
-        require(ballotId < ballotCount, "ballot"); return (ballots[ballotId].voters * 2 + 2) / 3;
+        require(ballotId < ballotCount, "ballot");
+        Ballot storage b=ballots[ballotId];require(b.ready,"snapshot incomplete");
+        return (b.denominator * 2 + 2) / 3;
     }
     function _approved(uint256 ballotId) private view {
         Ballot storage b = ballots[ballotId];

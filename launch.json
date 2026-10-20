@@ -15,8 +15,8 @@
   },
   "token": {
     "contract": "QProbeToken",
-    "name": "Quorum Compatibility Probe",
-    "symbol": "QPROBE",
+    "name": "Quorum Compatibility Probe III",
+    "symbol": "QPROBE3",
     "decimals": 18
   },
   "pool": {
@@ -25,5 +25,5 @@
     "tickSpacing": 60,
     "initialPrice": "79228162514264337593543950336"
   },
-  "notes": "LOCAL SECOND-TEST CANDIDATE ONLY. New code-package deployment and token address binding are pending user approval. Do not submit or deploy this draft. Preserve immutable constitution and all governance semantics. Hook permissions must match getHookPermissions() and 0x28c0. Production pool price must be derived from current official IMD policy and actual address order, not the placeholder initialPrice. Final external-code hashes and receipts must be verified before submission."
+  "notes": "Third compatibility test; not the production DAO. Immutable prerequisites must be VERIFIED_DEPLOYED before submission. Preserve exact core bytes, constitution, required positive cases and fixed interfaces. Opening price is derived from official policy; initialPrice is a schema reference, not an override. Fees must be handed from payer to Hook before fee-path acceptance."
 }

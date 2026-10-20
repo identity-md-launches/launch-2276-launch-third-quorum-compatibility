@@ -73,10 +73,27 @@ contract QuorumTreasury is IWorkTreasury {
         uint256 beforeBalance=IERC20Local(a).balanceOf(address(this));
         require(IERC20Local(a).transferFrom(msg.sender,address(this),amount),"income");
         require(IERC20Local(a).balanceOf(address(this))-beforeBalance==amount,"exact receipt");
+        _recordIncome(a,amount);
+    }
+    function _recordIncome(address a,uint256 amount) private {
         uint256 half=amount/2;uint256 target=membership.currentWeek()+1;Ledger storage l=ledgers[a];
         l.allowancePool+=half;l.operatingFunds+=amount-half;scheduledAsset[a][target]+=half;
         emit AssetIncome(a,msg.sender,amount,target,half);
         if(a==address(asset))emit Income(msg.sender,amount,target,half);
+    }
+    /// Direct supported-token transfers are income only after explicit recognition.
+    function syncAssetRevenue(address a) external nonReentrant {
+        require(supportsAsset(a),"asset");_syncAsset(a);
+    }
+    function _syncAsset(address a) private {
+        uint256 balance=IERC20Local(a).balanceOf(address(this));uint256 accounted=accountedAssetBalance(a);
+        require(balance>=accounted,"liability balance");
+        if(balance>accounted)_recordIncome(a,balance-accounted);
+    }
+    function syncOperatingRevenue() external nonReentrant { _syncOperating(); }
+    function _syncOperating() private {
+        operatingAccount.sweepBeforeOperation();
+        _syncAsset(address(asset));_syncAsset(address(projectAsset));
     }
     function weekInfo(uint256 week) external view returns(Week memory) { return periods[week]; }
     function settled(uint256 week) external view returns(bool) { return periods[week].done; }
@@ -86,12 +103,12 @@ contract QuorumTreasury is IWorkTreasury {
         require(week<membership.currentWeek() && limit>0 && limit<=32,"closed week/batch");
         Week storage w=periods[week];require(!w.done,"settled");
         if(!w.started){
-            w.started=true;w.rosterLimit=membership.enrollmentCount();w.budget=scheduledAsset[address(asset)][week];
+            w.started=true;w.rosterLimit=membership.responderCount(week);w.registrations=membership.registrationCount(week);w.budget=scheduledAsset[address(asset)][week];
             projectBudget[week]=scheduledAsset[address(projectAsset)][week];
         }
         uint256 end=w.cursor+limit;if(end>w.rosterLimit)end=w.rosterLimit;
-        for(uint256 id=w.cursor;id<end;++id){
-            if(membership.registeredAtStart(id,week))++w.registrations;
+        for(uint256 index=w.cursor;index<end;++index){
+            uint256 id=membership.responderAt(week,index);
             if(membership.qualified(id,week)){qualifiedIds[week].push(id);isQualified[week][id]=true;}
         }
         w.cursor=end;
@@ -138,6 +155,8 @@ contract QuorumTreasury is IWorkTreasury {
     }
     /// No protected liabilities or reward quota are made available to procurement.
     function executeOperating(OperatingPlan calldata plan) external onlyWork nonReentrant {
+        // Pre-existing balances are not refunds from this approved operation.
+        _syncOperating();
         Ledger storage p=ledgers[address(asset)];Ledger storage q=ledgers[address(projectAsset)];
         require(p.operatingFunds>=plan.primaryBudget && q.operatingFunds>=plan.projectBudget
             && operatingNative>=plan.nativeBudget,"operating budget");

@@ -158,11 +158,11 @@ contract ImdFactoryPositiveTest {
         require(imd.balanceOf(owners[0])==expectedWage);
         vm.prank(agents[0]);uint256 id=w.propose(0,0,owners[0],1 ether,block.timestamp+30 days,
             "Local integration fixture: deliver the fixed deployment manifest and receipt checks; acceptance requires their committed digest. No actual model labor is claimed.");
-        w.prepareBallot(id,32);for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);w.vote(id,i,true);}
+        w.prepareBallot(id,32);for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);w.vote(id,i,true);}
         maintainUntil(w.ballot(w.work(id).ballot).started+120 hours);w.fund(id);
         require(f.reservedWork()==1 ether && f.operatingFunds()==14 ether);
         vm.prank(agents[0]);w.submit(id,"Local integration fixture delivered; production admission and autonomous labor remain unproven.");
-        w.prepareBallot(id,32);for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);w.vote(id,i,true);}
+        w.prepareBallot(id,32);for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);w.vote(id,i,true);}
         maintainUntil(w.ballot(w.work(id).ballot).started+120 hours);w.accept(id);w.claim(id);
         require(w.work(id).stage==QuorumWork.Stage.Paid && imd.balanceOf(owners[0])==expectedWage+1 ether);
         require(f.reservedWork()==0 && f.earnedWork()==0 && imd.balanceOf(address(f))==f.accountedBalance());
@@ -198,11 +198,11 @@ contract ImdFactoryPositiveTest {
         require(hook.quota().earnedRewards(owners[1])==10 ether);
         vm.prank(agents[0]);uint256 id=w.proposeAsset(0,0,owners[0],address(token),3 ether,block.timestamp+30 days,
             "Normal fixture: deliver and accept a project-token-funded operating guide.");
-        w.prepareBallot(id,32);for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);w.vote(id,i,true);}
+        w.prepareBallot(id,32);for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);w.vote(id,i,true);}
         maintainUntil(w.ballot(w.work(id).ballot).started+120 hours);w.fund(id);
         l=f.ledger(address(token));require(l.reservedWork==3 ether && l.operatingFunds==67 ether+1);
         vm.prank(agents[0]);w.submit(id,"Normal fixture delivery: versioned guide and test receipt digest.");
-        w.prepareBallot(id,32);for(uint256 i=1;i<=4;++i){vm.prank(agents[i]);w.vote(id,i,true);}
+        w.prepareBallot(id,32);for(uint256 i=1;i<=5;++i){vm.prank(agents[i]);w.vote(id,i,true);}
         maintainUntil(w.ballot(w.work(id).ballot).started+120 hours);w.accept(id);
         require(hook.quota().earnedRewards(owners[0])==0); // Acceptance alone is not payment.
         balanceBefore=token.balanceOf(owners[0]);w.claim(id);

@@ -1,8 +1,8 @@
 {
-  "checkedAtUtc": "2026-10-20T00:46:05.161364+00:00",
+  "checkedAtUtc": "2026-10-20T03:45:26.280721+00:00",
   "ok": true,
   "counts": {
-    "Success": 36
+    "Success": 51
   },
   "requiredCases": {
     "test/positive/GovernancePositive.t.sol:testNormalDelayedResolutionDoesNotExtendRepairClock()": true,
@@ -30,7 +30,17 @@
     "test/compatibility/GovernancePoolPositive.t.sol:testNormalUnavailableServiceRollsBackTradeAndCanRetry()": true,
     "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalAtomicFactorySeedRecordProofAndClaim()": true,
     "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalBuySellAndFactoryFeeCollection()": true,
-    "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalZeroArgumentCandidateBinding()": true
+    "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalZeroArgumentCandidateBinding()": true,
+    "test/positive/RecusalPositive.t.sol:testNormalTenQualifiedSeatsRequireSevenWithDeclaredRecipients()": true,
+    "test/positive/RecusalPositive.t.sol:testNormalManyInterestedMembersLeaveThresholdFixedAndProposalExpires()": true,
+    "test/positive/RecusalPositive.t.sol:testNormalSeparateWorkerAndRecipientRemainInBudgetAndAcceptanceDenominator()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalDirectSupportedDonationsRecognizedExactlyOnce()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalLateDonationRecognitionDoesNotRewriteClosedBudget()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalOperatingDonationsAreIncomeBeforeBudgetAndRefund()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalAnyoneMayRecognizeOperatingDonationsWithoutProposal()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalRegistrationIndexMatchesRotationExpiryAndExit()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalHistoricalRegistrationsDoNotIncreaseEmptyWeekScan()": true,
+    "test/positive/RevenueAndScalePositive.t.sol:testNormalResponderBatchesPreserveAllRegisteredDenominator()": true
   },
   "tests": [
     {
@@ -245,6 +255,96 @@
     },
     {
       "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalTwoWorkRoundsAndExit()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RecusalPositive.t.sol:RecusalPositiveTest",
+      "name": "testNormalManyInterestedMembersLeaveThresholdFixedAndProposalExpires()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RecusalPositive.t.sol:RecusalPositiveTest",
+      "name": "testNormalSeparateWorkerAndRecipientRemainInBudgetAndAcceptanceDenominator()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RecusalPositive.t.sol:RecusalPositiveTest",
+      "name": "testNormalTenQualifiedSeatsRequireSevenWithDeclaredRecipients()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalAnyoneMayRecognizeOperatingDonationsWithoutProposal()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalDirectSupportedDonationsRecognizedExactlyOnce()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalFixedStakeHasNoSnapshotOrSeatCap()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalHistoricalRegistrationsDoNotIncreaseEmptyWeekScan()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalJoinAuthorizationAndSeparateStake()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalKeyRotationCarriesStakeAndPreservesPastEarnings()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalLateDonationRecognitionDoesNotRewriteClosedBudget()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalOperatingDonationsAreIncomeBeforeBudgetAndRefund()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalRegistrationIndexMatchesRotationExpiryAndExit()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalResponderBatchesPreserveAllRegisteredDenominator()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
+      "name": "testNormalTwoQualifiedPeriodsAndAllowanceClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/RevenueAndScalePositive.t.sol:RevenueAndScalePositiveTest",
       "name": "testNormalTwoWorkRoundsAndExit()",
       "status": "Success",
       "reason": null

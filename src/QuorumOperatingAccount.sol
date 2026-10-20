@@ -16,6 +16,12 @@ contract QuorumOperatingAccount {
     address public immutable project;
     constructor(address primary_,address project_){treasury=msg.sender;primary=primary_;project=project_;}
     receive() external payable {}
+    function sweepBeforeOperation() external {
+        require(msg.sender==treasury,"treasury");
+        _returnAsset(primary);_returnAsset(project);
+        // Native currency remains operating property, never a salary asset.
+        if(address(this).balance>0){(bool ok,)=treasury.call{value:address(this).balance}("");require(ok,"native return");}
+    }
     function execute(OperatingPlan calldata plan) external returns(uint256 returnedPrimary,uint256 returnedProject) {
         require(msg.sender==treasury,"treasury");
         for(uint256 i;i<plan.approvals.length;++i){

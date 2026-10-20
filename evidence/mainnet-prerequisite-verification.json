@@ -1,23 +1,24 @@
 {
   "chainId": 1,
   "constitution": {
-    "address": "0xa0ffc637788cf803d05f459128f475487cf9224a",
-    "textBytes": 11236,
-    "sha256": "bdcd594240fc645a1f41fabf3bbb7be35ecb05e3466160dbc3fb5928da7228d7",
-    "runtimeVerified": true
+    "address": "0x78928d14b9d603762dea9af51d77f666d9f7b566",
+    "textBytes": 12890,
+    "sha256": "dc75e61192f487d14d8722749c6a56412e83f3c558e63791395808e6715dd638",
+    "runtimeVerified": true,
+    "transactionHash": "0x040df7ec3655f5eb5958229fdd4ab858bbdeeb835903b6c1e5fe551bf426eb12"
   },
   "coreCode": {
-    "address": "0xa4709b43764d74af689fdce38ea903c353dba8e5",
+    "address": "0x63ee3be0aa5915c01bf6fecf21382511f9355b3d",
     "parts": [
-      "0x479182c9cada91714baf020bd5ef808da77c30e0",
-      "0x6159b594452b6c3ec38cb18edfa81d9e8aee4d88"
+      "0x156a5a7696336de1faf961366c3feacac60a9263",
+      "0x030cdd1aaa539f571329436cf80491a5124b146e"
     ],
-    "creationBytes": 39860,
-    "creationKeccak256": "0x3bd4bffbc769bf0df2a19aae45ab28ec3c8b7a6a3f7e1f0d4cc1d56e4d5f6c0d",
+    "creationBytes": 42214,
+    "creationKeccak256": "0xd3f4334953edb4f6f4edad282ccd93fee6c3b371682f2d75c8410cd6c3e0d9ee",
     "runtimeVerified": true,
-    "transactionHash": "0x4a5b48758a4279c87cec29b5234d6182a0cf38422b704ec6de1354cda4d28b23",
-    "confirmations": 8
+    "transactionHash": "0xd03e99e16f72638e2d8aeb97d86ae1d83d36d7411c1988346258c4d8771ad3cd",
+    "confirmations": 3
   },
   "runtimeAndReceiptsVerified": true,
-  "gasCostWei": 668664617243080
+  "gasCostWei": 1498719829252857
 }
