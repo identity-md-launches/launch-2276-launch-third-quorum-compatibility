@@ -1,5 +1,5 @@
 {
-  "scope": "Paid compatibility test 01 only, not approval for production",
+  "scope": "Second paid compatibility test preparation only; no deployment or payment authorized by this file",
   "requiredSuites": {
     "test/positive/GovernancePositive.t.sol": {
       "sha256": "a44cc17fd5594815118445f179dde1e86825cbc7ff3d6b734237ab908147eec1",
@@ -29,6 +29,23 @@
         "testNormalPlatformFeesReachTwoAssetTreasury()",
         "testNormalTwoAssetAllowanceWorkRewardAndSale()"
       ]
+    },
+    "test/compatibility/GovernancePoolPositive.t.sol": {
+      "sha256": "c31653cc5bed39e5e31145774740cc633a5565f616042234fef390551243b123",
+      "requiredCases": [
+        "testNormalManifestPermissionsMatchConstructor()",
+        "testNormalVotedBuyThenSellTaxAndRefunds()",
+        "testNormalVotedFeeCollectionSplitsIncomeOnlyOnce()",
+        "testNormalUnavailableServiceRollsBackTradeAndCanRetry()"
+      ]
+    },
+    "test/compatibility/FixedTokenBindingPositive.t.sol": {
+      "sha256": "d79db2e253bc59afa773a638e58cc90e691b926e42d2615832fdb8d035e3fb81",
+      "requiredCases": [
+        "testNormalAtomicFactorySeedRecordProofAndClaim()",
+        "testNormalBuySellAndFactoryFeeCollection()",
+        "testNormalZeroArgumentCandidateBinding()"
+      ]
     }
   },
   "immutableRules": [
@@ -45,21 +62,26 @@
     "Electorates assemble within seven days; deadlines do not extend when callers are late."
   ],
   "requiredCommands": [
-    "forge test --json"
+    "python tools/verify_candidate.py",
+    "forge test --json",
+    "python tools/verify_candidate.py --submission"
   ],
   "deploymentRequirements": [
+    "getHookPermissions() must exactly match manifest flags 0x28c0 and deployed Hook address bits",
     "Verified mainnet receipts and runtime of the fixed constitution and creation-code package before submission",
     "Exact core creation bytes from the package must equal the compiled core, and constitution bytes must equal committed English text",
     "Hook creates Core atomically using actual Token and Hook addresses; no mutable binding, administrator, proxy or delegatecall",
     "Actual factory launch must fit current transaction gas/initcode/runtime limits",
     "Read actual Hook.core() and verify all child bindings and official registry after deployment",
-    "Confirm requester fee recipient is Hook or perform payer-authorized future-fee handover before acceptance"
+    "Confirm requester fee recipient is Hook or perform payer-authorized future-fee handover before acceptance",
+    "Normal approved operating buy/sell and platform-fee income must reconcile once, including failures/retry; no double credit of nested tax"
   ],
   "limitations": [
-    "These nineteen cases cover positive behavior and ordinary failure handling only, not a complete security audit.",
+    "Positive workflows and ordinary unavailable-service handling only; not a complete security audit.",
     "Additional protocol/system requirements in RULE-MAP.md still need final release verification.",
     "Current fixed stake and account/time/token data are local fixtures.",
     "New adversarial or bypass testing remains outside the current authorization."
   ],
-  "optionalExternalArtifactRebuild": "python tools/build_external_fixtures.py"
+  "optionalExternalArtifactRebuild": "python tools/build_external_fixtures.py",
+  "requiredCommandsNote": "Submission gate must intentionally fail until live prerequisites and final token binding are verified. Local acceptance has separate test-budget and actual transaction-cap evidence."
 }

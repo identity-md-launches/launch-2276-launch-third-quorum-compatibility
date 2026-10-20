@@ -43,15 +43,17 @@ contract QuorumIssuanceHook {
         address imd=config.revenueToken();
         require(address(m)!=address(0) && token!=imd,"configuration");
         manager=m; project=token; paired=imd; seeder=msg.sender;
-        Hooks.Permissions memory p;
-        p.beforeInitialize=true;p.beforeAddLiquidity=true;p.beforeSwap=true;p.afterSwap=true;
-        Hooks.validateHookPermissions(IHooks(address(this)),p);
+        Hooks.validateHookPermissions(IHooks(address(this)),getHookPermissions());
         core=config.coreCode().create(token,imd,config.stakeAmount(),config.constitution());
         require(core.treasury().rewardReporter()==address(this),"fixed hook");
         router=new QuorumSwapRouter(m,address(this),token,imd,core.treasury());
         quota=new QuotaPrototype(address(this),address(this));
         IERC20(token).forceApprove(address(core.treasury()),type(uint256).max);
         IERC20(imd).forceApprove(address(core.treasury()),type(uint256).max);
+    }
+    /// Public protocol declaration shares the constructor's exact permission definition.
+    function getHookPermissions() public pure returns (Hooks.Permissions memory p) {
+        p.beforeInitialize=true;p.beforeAddLiquidity=true;p.beforeSwap=true;p.afterSwap=true;
     }
     /// Stores only the original wallet's factory-authenticated allocation. Does not unlock it.
     function registerOriginal(uint64 launchNumber,uint256 amount,bytes32[] calldata proof) external {

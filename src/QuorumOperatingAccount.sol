@@ -16,7 +16,7 @@ contract QuorumOperatingAccount {
     address public immutable project;
     constructor(address primary_,address project_){treasury=msg.sender;primary=primary_;project=project_;}
     receive() external payable {}
-    function execute(OperatingPlan calldata plan) external {
+    function execute(OperatingPlan calldata plan) external returns(uint256 returnedPrimary,uint256 returnedProject) {
         require(msg.sender==treasury,"treasury");
         for(uint256 i;i<plan.approvals.length;++i){
             OperatingApproval calldata a=plan.approvals[i];
@@ -35,11 +35,11 @@ contract QuorumOperatingAccount {
         for(uint256 i;i<plan.approvals.length;++i){
             OperatingApproval calldata a=plan.approvals[i];require(IApproveAsset(a.asset).approve(a.spender,0),"clear approval");
         }
-        _returnAsset(primary);_returnAsset(project);
+        returnedPrimary=_returnAsset(primary);returnedProject=_returnAsset(project);
         if(address(this).balance>0){(bool ok,)=treasury.call{value:address(this).balance}("");require(ok,"native return");}
     }
-    function _returnAsset(address asset) private {
-        uint256 amount=IERC20Local(asset).balanceOf(address(this));
+    function _returnAsset(address asset) private returns(uint256 amount) {
+        amount=IERC20Local(asset).balanceOf(address(this));
         if(amount>0)require(IERC20Local(asset).transfer(treasury,amount),"return funds");
     }
 }

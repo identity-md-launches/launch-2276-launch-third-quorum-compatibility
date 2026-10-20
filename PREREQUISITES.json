@@ -1,67 +1,26 @@
 {
-  "status": "VERIFIED_DEPLOYED",
+  "status": "LOCAL_CANDIDATE_NOT_DEPLOYED",
   "chainId": 1,
-  "wallet": "0x2F29e170c709B6F3cE8D10BFebc8d8b0a73de7C1",
-  "constitution": "0xa0ffc637788cf803d05f459128f475487cf9224a",
-  "coreCode": "0x3a0178ebfac181b9abad2fc980507b43ebf4f161",
-  "coreCreationKeccak256": "0x0f47399545e4659030ba4a70dc0b4dc2fe7bf295559b316547a854d580c0610e",
-  "constitutionSha256": "bdcd594240fc645a1f41fabf3bbb7be35ecb05e3466160dbc3fb5928da7228d7",
+  "submissionAllowed": false,
+  "constitution": {
+    "address": "0xa0ffc637788cf803d05f459128f475487cf9224a",
+    "sha256": "bdcd594240fc645a1f41fabf3bbb7be35ecb05e3466160dbc3fb5928da7228d7",
+    "reuseRequiresFreshChainVerification": true
+  },
+  "coreCode": {
+    "address": null,
+    "candidatePlaceholder": "0x0000000000000000000000000000000000c0de02",
+    "creationKeccak256": "0x3bd4bffbc769bf0df2a19aae45ab28ec3c8b7a6a3f7e1f0d4cc1d56e4d5f6c0d",
+    "creationBytes": 39860,
+    "newDeploymentRequired": true
+  },
   "stakeAmount": "62500000000000000000000",
   "revenueToken": "0xd34a99bc0f67ae1bbd63c660e6d0b0dd03e263b7",
-  "runtimeAndReceiptsVerified": true,
-  "note": "Deployed on Ethereum mainnet and checked against the public source build. Addresses are actual deployed dependencies, not predictions. This remains a compatibility test, not production approval.",
-  "verifiedAtUtc": "2026-10-19T13:40:31.626815+00:00",
-  "verifiedAtBlock": 26226980,
-  "constitutionTextAddress": "0x00203eac4170f596c9db6c8dd8109292c32e4f09",
-  "coreCodeParts": [
-    "0xbaf7f0427b5602ab2d2f9565df5b3343251f9f3e",
-    "0x05db6106aefb26f539cec9a452432ee03dd22ee5"
+  "requiredBeforeSubmission": [
+    "Explicit user approval of exact new code-package deployment and second order",
+    "Deploy new package and verify chain=1 receipts, runtime and creation bytes",
+    "Bind actual new package address in zero-argument token and rerun final acceptance",
+    "Verify current official launch policy and requester-fee handover requirements"
   ],
-  "runtimeHashes": {
-    "ConstitutionPrototype": {
-      "address": "0xa0ffc637788cf803d05f459128f475487cf9224a",
-      "runtimeSha256": "3c3616296d6fac018e4d8021874cfc19ad7b71c96d791d811990fee53016ca45",
-      "runtimeKeccak256": "0x80c5f95a62cf8127f4e29771ce22e61923aaad73f81141223959baf6b0febfc7",
-      "bytes": 555
-    },
-    "QuorumCoreCode": {
-      "address": "0x3a0178ebfac181b9abad2fc980507b43ebf4f161",
-      "runtimeSha256": "6cfb44290e7fc45002c7d1a1a3e63719538fa8c4534337e62a70bf07a9f4c11b",
-      "runtimeKeccak256": "0x78b8a87938764280284a0d352a031affc97e4729ee3660d4a0493641ca587c58",
-      "bytes": 919
-    }
-  },
-  "deployments": [
-    {
-      "name": "ConstitutionPrototype",
-      "transactionHash": "0x4f231d8f9304dceb283fc7d9699705c93438b826c1074945c414cb2fc9b5b1ba",
-      "blockNumber": 26226974,
-      "blockHash": "0xd1a0c38a29c20a1d7ec88e4c9c22a3bdf5feb646244f9fa84b49b1cb553e8b82",
-      "gasUsed": 2668895,
-      "gasCostWei": "454580653804215"
-    },
-    {
-      "name": "QuorumCoreCode",
-      "transactionHash": "0xe5ecfac63f5ca5c0abf6beadb900c2f9a5d66667579c2b465a31a43e0ef85ac5",
-      "blockNumber": 26226975,
-      "blockHash": "0x4dd0e2cbd48ecc153ecfe2c1688d54e27aa134db5fe61498225c1c9805a3e7a2",
-      "gasUsed": 9103962,
-      "gasCostWei": "1528812725365170"
-    }
-  ],
-  "verificationChecks": {
-    "ConstitutionPrototype_size": true,
-    "ConstitutionPrototype_runtime_template": true,
-    "QuorumCoreCode_size": true,
-    "QuorumCoreCode_runtime_template": true,
-    "full_constitution": true,
-    "constitution_digest": true,
-    "constitution_length": true,
-    "text_storage_code": true,
-    "part0_bytes": true,
-    "part1_bytes": true,
-    "creation_hash": true,
-    "ConstitutionPrototype_receipt_canonical": true,
-    "QuorumCoreCode_receipt_canonical": true
-  }
+  "previousAttemptEvidence": "C:/dev/quorum/v2/paid-test-01/evidence/mainnet-prerequisite-verification.json"
 }

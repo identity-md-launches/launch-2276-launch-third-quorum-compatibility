@@ -1,32 +1,38 @@
-# Quorum Compatibility Probe (QPROBE)
+# Quorum Compatibility Probe - second-test candidate
 
-This is a compatibility test of immutable agent governance deployed through IMD, not the production QUORUM release. Test token economics are not an investment proposition. No website, ENS, operator service, or automatic trading is requested.
+Status: LOCAL PREPARATION COMPLETE; NOT READY FOR MAINNET SUBMISSION.
+The first paid attempt stopped after three manifest attempts because the Hook lacked getHookPermissions(). No test token was deployed. This candidate preserves the approved constitution and addresses that interface gap and the independent governed-swap accounting limitation.
 
-## Purpose
+## What changed
 
-Determine whether IMD can import and review this project, validate its two predeployed immutable dependencies, adapt only the launch integration where necessary, and launch a Token + Hook + pool whose immutable governance is the reviewed implementation. A generic token launch without these dependencies is not a passing result.
+- The public getHookPermissions() returns the same four flags used for constructor validation: beforeInitialize, beforeAddLiquidity, beforeSwap, afterSwap (0x28c0).
+- During one approved operating execution, tax and platform-fee deposits may enter their own guarded income path. Outward payout/operating paths retain the execution lock. Income transfers cannot nest.
+- The immutable operating account explicitly returns the amounts it refunded. Only those amounts become operating funds; tax/fee deposits received during the operation are already split once under the unchanged 50/50 rule.
+- Default Foundry test discovery includes all of test/. The per-test budget is 5 billion gas because a single test replays multiple weeks. Actual transaction limits are verified separately with Osaka Anvil and its 16,777,216 gas cap enabled; no production gas-limit waiver is proposed.
 
-## Deployment
+No membership, voting, work acceptance, wage, quota, tax percentage or constitution text change was made. The original two mandatory suite files retain their first-attempt hashes. New tests cover a real voted buy and sell, fee collection, ordinary unavailable-service rollback/retry, the permission query and zero-argument token composition.
 
-1. The payer deploys the exact English constitution and an immutable creation-code package. PREREQUISITES.json must contain verified receipts and code hashes before submission.
-2. IMD creates the zero-argument QProbeToken and then QuorumIssuanceHook through its official factory.
-3. In its constructor, Hook calls the fixed package. The package creates Core with the actual Token, paired IMD, fixed stake, constitution, and msg.sender (Hook). Core creates Membership, Treasury, Work, and OperatingAccount. This happens atomically within the official launch transaction. No future address prediction, administrator binding, proxy, delegatecall, or mutable initialization is needed.
-4. Obtain Core only through the actual Hook.core() getter. The code package is reusable; do not assume it has only one caller or predict a child using its nonce.
-5. The package creationHash and reconstructed creation bytes must exactly match the compiled QuorumBoundCore creation code. Existing immutable governance code cannot be patched by adapting token/hook source. If a necessary fix changes this code, report the incompatibility rather than weakening checks or deploying a different unreviewed core.
+## Reproduce local acceptance
 
-## Verify locally
+Run forge build, then python tools/run_acceptance.py. This runs the default forge test --json command, verifies all mandatory cases really ran, and checks source/ABI pins. Evidence is written under evidence/.
 
-Run `forge test --json` directly. The five pinned external fixture artifacts are committed so an IMD verifier does not need a manual bootstrap. To reproduce these artifacts from the vendored original sources, optionally run `python tools/build_external_fixtures.py` first. There are nineteen required positive tests. External PoolManager and IMD factory bytecode is built from vendored original sources with Solidity 0.8.26; project code uses Solidity 0.8.28. Both use their pinned optimizer configuration, viaIR, Cancun target and bytecode_hash=none.
+To repeat finite actual-transaction rehearsals (fresh output names required):
 
-The five issuance tests retain original proof registration, plain ERC20 transfers, 3% IMD buy/sell tax, 50/50 treasury accounting, paid work and wages, original allocation unlock, sell credits, and platform fee collection. Fourteen governance cases cover joining, key rotation, full-week qualification, voting snapshots, repair, suspension, exact operating calls, and principal refunds. Tests must not be removed, skipped or weakened. The constitution governs the intended rules; source/test disagreements must be reported.
+    python tools/issuance_lab.py --directory evidence/replay-token0 --project-order token0 --payer-handover
+    python tools/issuance_lab.py --directory evidence/replay-token1 --project-order token1 --payer-handover
 
-## Acceptance boundaries
+Each starts only a temporary 127.0.0.1 Anvil, accepts only local chain 31337, uses local unlocked fixture accounts, and closes the process/port in finally. It does not access private keys or send public-chain transactions. It uses pinned historical public policy/example files under fixtures/policy; these are test inputs, not a claim that live policy can never change.
 
-- Test on Ethereum chainId=1 paired with IMD. Sepolia currently offers only native ETH pairing, which does not exercise this ERC20-paired mechanism.
-- Total supply 1 billion, 18 decimals, ordinary transfers; 90% seeded in the pool and standard 10% swarm. Fixed test stake 62,500 tokens, no total seat cap.
-- Immutable core creation bytes and full constitution must match PREREQUISITES.json; no upgrade/admin added.
-- No change to core governance, tax rates, quota accounting, ownership/authorization, voting, or payouts to make launch pass. New LP remains factory-only.
-- Factory/init/runtime code and actual transaction gas must satisfy current protocol limits, including 16,777,216 gas/transaction. Separate local transactions in the experiment were below this cap; this is not a platform acceptance claim.
-- Verify actual Token/Hook/Core/Membership/Treasury/Work bindings and official registry on chain after deployment. If the platform cannot execute this composition, report failure with the precise rejected stage; never call an alternative generic launch success.
-- Requester LP fee ownership starts with the payer unless the platform can assign Hook directly. The payer can hand over future fees to Hook before final acceptance. Do not invent authority to move already paid fees.
-- Only reviewed positive workflows are in scope; this bundle is not an independent security audit or proof of autonomous operation.
+Dependencies: installed Foundry (forge/anvil), Python 3.10+, eth-abi and pycryptodome. Five original external bytecode fixtures are committed; optional source rebuild: python tools/build_external_fixtures.py.
+
+## Before a second paid submission
+
+python tools/verify_candidate.py --submission MUST currently fail. PREREQUISITES.json records the new core creation hash but no deployed package address. QProbeToken uses an explicit local placeholder. The zero-argument test stages local code at this address; it is not evidence of live deployment.
+
+After user approval: deploy only the newly compiled creation-code package, recheck and reuse the unchanged constitution, verify Ethereum receipts/runtime/creation bytes, put the actual new package address into QProbeToken and the fixed-binding fixture, rebuild and rerun final acceptance, and publish the reviewed fixed commit. Then update the drafted request's source pin and validate current platform terms. Never point this core at the first attempt's immutable package.
+
+The local source/ABI gate checks the known missing-interface requirement; it is not IMD's private verifier. The second paid task must still pass manifest integration, specialist audits and actual deployment. Read Core through the real Hook.core() getter. Check all bindings, registry, code hashes and future LP-fee recipient; handover from payer requires its explicit authorization. Do not call the test complete after code publication alone.
+
+## Scope limits
+
+Only normal workflows and ordinary service failure/retry are exercised. No bypass testing or independent security audit is claimed. Local IMD fixtures and accelerated weekly activity do not prove live token behavior or persistent Agent autonomy. ENS integration and real Agent endurance remain later release gates. There is no frontend, ENS purchase, daemon, automatic trading, admin, proxy or mutable core binding in this test request. Old QRM is independent.

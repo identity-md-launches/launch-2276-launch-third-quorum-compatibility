@@ -1,7 +1,9 @@
 [profile.default]
 src = "src"
-test = "test/positive"
+test = "test"
 out = "out"
+# A test can replay many weeks; this is NOT a mainnet transaction gas limit.
+gas_limit = 5000000000
 solc_version = "0.8.28"
 evm_version = "cancun"
 optimizer = true

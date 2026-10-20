@@ -30,7 +30,15 @@ contract QuorumTreasury is IWorkTreasury {
     mapping(uint256 => mapping(uint256 => bool)) public isQualified;
     mapping(uint256 => mapping(uint256 => bool)) public allowanceClaimed;
     bool private entered;
-    modifier nonReentrant() { require(!entered,"busy");entered=true;_;entered=false; }
+    bool private receivingIncome;
+    bool private operatingExecution;
+    modifier nonReentrant() { require(!entered && !receivingIncome,"busy");entered=true;_;entered=false; }
+    // An approved operation may generate atomic tax/fee income. All outward money
+    // paths remain under the execution lock, and income transfers cannot nest.
+    modifier incomeReceipt() {
+        require(!receivingIncome && (!entered || operatingExecution),"busy");
+        receivingIncome=true;_;receivingIncome=false;
+    }
     modifier onlyWork() { require(msg.sender==address(work),"work");_; }
     event Income(address indexed from,uint256 amount,uint256 scheduledWeek,uint256 allowancePart);
     event AssetIncome(address indexed asset,address indexed from,uint256 amount,uint256 scheduledWeek,uint256 allowancePart);
@@ -58,8 +66,8 @@ contract QuorumTreasury is IWorkTreasury {
         Ledger storage l=ledgers[a];return l.allowancePool+l.earnedAllowances+l.operatingFunds+l.reservedWork+l.earnedWork;
     }
     function accountedBalance() external view returns(uint256) { return accountedAssetBalance(address(asset)); }
-    function depositRevenue(uint256 amount) external nonReentrant { _deposit(address(asset),amount); }
-    function depositAssetRevenue(address a,uint256 amount) external nonReentrant { _deposit(a,amount); }
+    function depositRevenue(uint256 amount) external incomeReceipt { _deposit(address(asset),amount); }
+    function depositAssetRevenue(address a,uint256 amount) external incomeReceipt { _deposit(a,amount); }
     function _deposit(address a,uint256 amount) private {
         require(supportsAsset(a) && amount>0,"income asset/amount");
         uint256 beforeBalance=IERC20Local(a).balanceOf(address(this));
@@ -134,14 +142,14 @@ contract QuorumTreasury is IWorkTreasury {
         require(p.operatingFunds>=plan.primaryBudget && q.operatingFunds>=plan.projectBudget
             && operatingNative>=plan.nativeBudget,"operating budget");
         p.operatingFunds-=plan.primaryBudget;q.operatingFunds-=plan.projectBudget;operatingNative-=plan.nativeBudget;
-        uint256 beforePrimary=asset.balanceOf(address(this));uint256 beforeProject=projectAsset.balanceOf(address(this));
         if(plan.primaryBudget>0)require(asset.transfer(address(operatingAccount),plan.primaryBudget),"primary budget");
         if(plan.projectBudget>0)require(projectAsset.transfer(address(operatingAccount),plan.projectBudget),"project budget");
         if(plan.nativeBudget>0){(bool ok,)=address(operatingAccount).call{value:plan.nativeBudget}("");require(ok,"native budget");}
-        operatingAccount.execute(plan);
-        // Conversion proceeds and unused approvals belong to operations; do not split the same capital again.
-        uint256 returnedPrimary=asset.balanceOf(address(this))-(beforePrimary-plan.primaryBudget);
-        uint256 returnedProject=projectAsset.balanceOf(address(this))-(beforeProject-plan.projectBudget);
+        operatingExecution=true;
+        (uint256 returnedPrimary,uint256 returnedProject)=operatingAccount.execute(plan);
+        operatingExecution=false;
+        // Only explicit account refunds/proceeds return to operations. Tax/fees
+        // received during execution have already been split by incomeReceipt.
         p.operatingFunds+=returnedPrimary;q.operatingFunds+=returnedProject;
         emit OperatingExecuted(plan.primaryBudget,plan.projectBudget,plan.nativeBudget);
     }
