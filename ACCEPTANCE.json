@@ -40,7 +40,7 @@
       ]
     },
     "test/compatibility/FixedTokenBindingPositive.t.sol": {
-      "sha256": "d79db2e253bc59afa773a638e58cc90e691b926e42d2615832fdb8d035e3fb81",
+      "sha256": "8f11ab6151d9394ded34c8a09c38cadbe493cb07acbf71edf9cdb1502b5a13d8",
       "requiredCases": [
         "testNormalAtomicFactorySeedRecordProofAndClaim()",
         "testNormalBuySellAndFactoryFeeCollection()",

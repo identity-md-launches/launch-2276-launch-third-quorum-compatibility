@@ -1,0 +1,254 @@
+{
+  "checkedAtUtc": "2026-10-20T00:46:05.161364+00:00",
+  "ok": true,
+  "counts": {
+    "Success": 36
+  },
+  "requiredCases": {
+    "test/positive/GovernancePositive.t.sol:testNormalDelayedResolutionDoesNotExtendRepairClock()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalFixedStakeHasNoSnapshotOrSeatCap()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalJoinAuthorizationAndSeparateStake()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalKeyRotationCarriesStakeAndPreservesPastEarnings()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalMissedRepairReturnsBudget()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalOneRepairFreshVoteThenPayment()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalOperatingConversionNameAndLaterUpdate()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalSecondUnapprovedDeliveryReturnsBudget()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalSnapshotTimeoutAndRepairClock()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalSuspendedMemberCanExitAndReceiveOriginalStake()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalSuspensionPreservesOldBallotAndRecoversAfterFourWeeks()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalTwoQualifiedPeriodsAndAllowanceClaim()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalTwoWorkRoundsAndExit()": true,
+    "test/positive/GovernancePositive.t.sol:testNormalUnavailableServiceLeavesBudgetAndAllowsRetry()": true,
+    "test/positive/ImdFactoryPositive.t.sol:testNormalAtomicFactorySeedRecordProofAndClaim()": true,
+    "test/positive/ImdFactoryPositive.t.sol:testNormalBuySellAndFactoryFeeCollection()": true,
+    "test/positive/ImdFactoryPositive.t.sol:testNormalLaunchTaxFundsQualifiedMembersAndAcceptedWork()": true,
+    "test/positive/ImdFactoryPositive.t.sol:testNormalPlatformFeesReachTwoAssetTreasury()": true,
+    "test/positive/ImdFactoryPositive.t.sol:testNormalTwoAssetAllowanceWorkRewardAndSale()": true,
+    "test/compatibility/GovernancePoolPositive.t.sol:testNormalManifestPermissionsMatchConstructor()": true,
+    "test/compatibility/GovernancePoolPositive.t.sol:testNormalVotedBuyThenSellTaxAndRefunds()": true,
+    "test/compatibility/GovernancePoolPositive.t.sol:testNormalVotedFeeCollectionSplitsIncomeOnlyOnce()": true,
+    "test/compatibility/GovernancePoolPositive.t.sol:testNormalUnavailableServiceRollsBackTradeAndCanRetry()": true,
+    "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalAtomicFactorySeedRecordProofAndClaim()": true,
+    "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalBuySellAndFactoryFeeCollection()": true,
+    "test/compatibility/FixedTokenBindingPositive.t.sol:testNormalZeroArgumentCandidateBinding()": true
+  },
+  "tests": [
+    {
+      "suite": "test/compatibility/FixedTokenBindingPositive.t.sol:FixedTokenBindingPositiveTest",
+      "name": "testNormalAtomicFactorySeedRecordProofAndClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/FixedTokenBindingPositive.t.sol:FixedTokenBindingPositiveTest",
+      "name": "testNormalBuySellAndFactoryFeeCollection()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/FixedTokenBindingPositive.t.sol:FixedTokenBindingPositiveTest",
+      "name": "testNormalZeroArgumentCandidateBinding()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalAtomicFactorySeedRecordProofAndClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalBuySellAndFactoryFeeCollection()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalLaunchTaxFundsQualifiedMembersAndAcceptedWork()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalManifestPermissionsMatchConstructor()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalPlatformFeesReachTwoAssetTreasury()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalTwoAssetAllowanceWorkRewardAndSale()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalUnavailableServiceRollsBackTradeAndCanRetry()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalVotedBuyThenSellTaxAndRefunds()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/compatibility/GovernancePoolPositive.t.sol:GovernancePoolPositiveTest",
+      "name": "testNormalVotedFeeCollectionSplitsIncomeOnlyOnce()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalDelayedResolutionDoesNotExtendRepairClock()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalFixedStakeHasNoSnapshotOrSeatCap()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalJoinAuthorizationAndSeparateStake()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalKeyRotationCarriesStakeAndPreservesPastEarnings()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalMissedRepairReturnsBudget()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalOneRepairFreshVoteThenPayment()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalOperatingConversionNameAndLaterUpdate()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalSecondUnapprovedDeliveryReturnsBudget()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalSnapshotTimeoutAndRepairClock()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalSuspendedMemberCanExitAndReceiveOriginalStake()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalSuspensionPreservesOldBallotAndRecoversAfterFourWeeks()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalTwoQualifiedPeriodsAndAllowanceClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalTwoWorkRoundsAndExit()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/GovernancePositive.t.sol:GovernancePositiveTest",
+      "name": "testNormalUnavailableServiceLeavesBudgetAndAllowsRetry()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/ImdFactoryPositive.t.sol:ImdFactoryPositiveTest",
+      "name": "testNormalAtomicFactorySeedRecordProofAndClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/ImdFactoryPositive.t.sol:ImdFactoryPositiveTest",
+      "name": "testNormalBuySellAndFactoryFeeCollection()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/ImdFactoryPositive.t.sol:ImdFactoryPositiveTest",
+      "name": "testNormalLaunchTaxFundsQualifiedMembersAndAcceptedWork()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/ImdFactoryPositive.t.sol:ImdFactoryPositiveTest",
+      "name": "testNormalPlatformFeesReachTwoAssetTreasury()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/ImdFactoryPositive.t.sol:ImdFactoryPositiveTest",
+      "name": "testNormalTwoAssetAllowanceWorkRewardAndSale()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalFixedStakeHasNoSnapshotOrSeatCap()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalJoinAuthorizationAndSeparateStake()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalKeyRotationCarriesStakeAndPreservesPastEarnings()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalTwoQualifiedPeriodsAndAllowanceClaim()",
+      "status": "Success",
+      "reason": null
+    },
+    {
+      "suite": "test/positive/NormalIntegrated.t.sol:NormalIntegratedTest",
+      "name": "testNormalTwoWorkRoundsAndExit()",
+      "status": "Success",
+      "reason": null
+    }
+  ],
+  "note": "Test harness may replay weeks with a large per-test budget; local Anvil separately enforces the actual per-transaction gas cap."
+}

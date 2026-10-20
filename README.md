@@ -1,6 +1,6 @@
 # Quorum Compatibility Probe - second-test candidate
 
-Status: LOCAL PREPARATION COMPLETE; NOT READY FOR MAINNET SUBMISSION.
+Status: VERIFIED MAINNET PREREQUISITES; FINAL LOCAL ACCEPTANCE PASSED; SECOND PAID PLATFORM TEST PENDING.
 The first paid attempt stopped after three manifest attempts because the Hook lacked getHookPermissions(). No test token was deployed. This candidate preserves the approved constitution and addresses that interface gap and the independent governed-swap accounting limitation.
 
 ## What changed
@@ -27,9 +27,9 @@ Dependencies: installed Foundry (forge/anvil), Python 3.10+, eth-abi and pycrypt
 
 ## Before a second paid submission
 
-python tools/verify_candidate.py --submission MUST currently fail. PREREQUISITES.json records the new core creation hash but no deployed package address. QProbeToken uses an explicit local placeholder. The zero-argument test stages local code at this address; it is not evidence of live deployment.
+The immutable code package is deployed at 0xa4709b43764d74af689fdce38ea903c353dba8e5 on Ethereum mainnet. The unchanged constitution is reused at 0xa0ffc637788cf803d05f459128f475487cf9224a. PREREQUISITES.json and evidence/mainnet-prerequisite-verification.json record full text, runtime, part-bytecode and transaction verification. QProbeToken and its local fixed-binding fixture use the actual address. Final acceptance after binding passed all 36 tests, including all 26 mandatory cases without skips.
 
-After user approval: deploy only the newly compiled creation-code package, recheck and reuse the unchanged constitution, verify Ethereum receipts/runtime/creation bytes, put the actual new package address into QProbeToken and the fixed-binding fixture, rebuild and rerun final acceptance, and publish the reviewed fixed commit. Then update the drafted request's source pin and validate current platform terms. Never point this core at the first attempt's immutable package.
+Run python tools/verify_candidate.py --submission to validate this source-level gate. Mainnet prerequisite deployment is not deployment of the token, pool, Hook or actual governance Core. Those remain part of the paid platform test. Never point this core at the first attempt's immutable package.
 
 The local source/ABI gate checks the known missing-interface requirement; it is not IMD's private verifier. The second paid task must still pass manifest integration, specialist audits and actual deployment. Read Core through the real Hook.core() getter. Check all bindings, registry, code hashes and future LP-fee recipient; handover from payer requires its explicit authorization. Do not call the test complete after code publication alone.
 

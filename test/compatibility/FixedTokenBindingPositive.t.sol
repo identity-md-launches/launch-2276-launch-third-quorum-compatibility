@@ -65,7 +65,7 @@ contract FixedTokenBindingPositiveTest {
         bytes memory first=new bytes(24000);bytes memory second=new bytes(coreCreation.length-24000);
         for(uint256 i;i<coreCreation.length;++i){if(i<24000)first[i]=coreCreation[i];else second[i-24000]=coreCreation[i];}
         QuorumCoreCode catalog=new QuorumCoreCode(first,second,keccak256(coreCreation));
-        address pendingCode=address(bytes20(hex"0000000000000000000000000000000000c0de02"));
+        address pendingCode=address(bytes20(hex"a4709b43764d74af689fdce38ea903c353dba8e5"));
         vm.etch(pendingCode,address(catalog).code);
         require(QuorumCoreCode(pendingCode).creationHash()==keccak256(coreCreation),"new code package pinned");
         bytes memory tokenCode=type(QProbeToken).creationCode;
@@ -140,7 +140,7 @@ contract FixedTokenBindingPositiveTest {
         require(fee0>0 || fee1>0); // Normal collection remains compatible with restricted new liquidity.
     }
     function testNormalZeroArgumentCandidateBinding() public view {
-        require(address(token.coreCode())==address(bytes20(hex"0000000000000000000000000000000000c0de02")),"candidate placeholder binding");
+        require(address(token.coreCode())==address(bytes20(hex"a4709b43764d74af689fdce38ea903c353dba8e5")),"candidate placeholder binding");
         require(keccak256(bytes(token.name()))==keccak256("Quorum Compatibility Probe"));
         require(keccak256(bytes(token.symbol()))==keccak256("QPROBE"));
         require(token.stakeAmount()==62_500 ether);
